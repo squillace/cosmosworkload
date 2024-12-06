@@ -1,0 +1,52 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: cosmosworkload
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: cosmosworkload
+  template:
+    metadata:
+      labels:
+        app: cosmosworkload
+    spec:
+      runtimeClassName: wasmtime-spin
+      containers:
+        - name: cosmosworkload
+          image: ghcr.io/squillace/cosmosworkload:latest
+          command: ["/"]
+          imagePullPolicy: IfNotPresent
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: cosmosworkload
+spec:
+  type: LoadBalancer
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 80
+  selector:
+    app: cosmosworkload
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: cosmosworkload
+  annotations:
+    ingress.kubernetes.io/ssl-redirect: "false"
+    kubernetes.io/ingress.class: traefik
+spec:
+  rules:
+    - http:
+        paths:
+          - path: /cosmosworkload
+            pathType: Prefix
+            backend:
+              service:
+                name: cosmosworkload
+                port:
+                  number: 80
