@@ -13,7 +13,6 @@ component = "cosmosworkload"
 [component.cosmosworkload]
 source = "target/cosmosworkload.wasm"
 exclude_files = ["**/node_modules"]
-allowed_outbound_hosts = ["https://spin-kv-cosmos-db.documents.azure.com:443/"]
 key_value_stores = ["default"]
 
 
