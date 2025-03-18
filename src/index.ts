@@ -16,7 +16,16 @@ export async function handler(req: Request, res: ResponseBuilder) {
     const byteA = myValue;
     const s = new TextDecoder().decode(byteA);
     console.log(s)
-    res.send("hello universe from Azure CosmosDB using wasi:key-value with \"" + vals[0] + "\" and AKS Workload Identity" +  "...." + s  + " .....");
-    
+
+    let allKeys = store.getKeys();
+    let allKeyString = "Keys: "
+    const byteList = allKeys;
+    allKeys.forEach(element => {
+        console.log(element);
+        allKeyString += ", " + element;     
+    });
+    console.log(allKeyString);
+    res.send("hello universe from Azure CosmosDB using wasi:key-value with \"" + vals[0] + "\" and AKS Workload Identity" +  "...." + s  + " ....." + vals + allKeyString);
+    console.log(vals);
 }
 
