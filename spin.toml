@@ -4,7 +4,7 @@ spin_manifest_version = 2
 authors = ["ralph squillace <ralph@squillace.com>"]
 description = ""
 name = "cosmosworkload"
-version = "0.1.0"
+version = "0.1.3"
 
 [[trigger.http]]
 route = "/kv"
